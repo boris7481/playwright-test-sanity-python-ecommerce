@@ -8,4 +8,3 @@ def test_Verify_Scroll_Up_using_Arrow_button_and_Scroll_Down_unctionality(page: 
     homepage = HomePage(page)
     homepage.navigate_without_login()
     homepage.scroll_up_and_down_and_wait_arrow()
-
