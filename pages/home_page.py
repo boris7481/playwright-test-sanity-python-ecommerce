@@ -45,7 +45,7 @@ class HomePage:
     def navigate_and_click_of_view_home_first_product_link(self):
         self.page.get_by_role("link", name="View Product").first.click()
 
-    def Click_Delete_Account_button(self):
+    def click_delete_account_button(self):
         self.page.get_by_role("link", name=" Delete Account").click()
 
     def register_and_login(self):
@@ -66,7 +66,7 @@ class HomePage:
         self.page.get_by_role("link", name="logout").click()
         expect(self.page.get_by_text("Login to your account")).to_be_visible()
 
-    def Verify_soucription_in_home_page_method(self):
+    def verify_soucription_in_home_page_method(self):
         expect(self.page.get_by_text("Subscription")).to_be_visible()
         self.page.get_by_placeholder("Your email address").fill(
             "freedomvision@gmail.com"

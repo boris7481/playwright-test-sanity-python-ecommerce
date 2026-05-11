@@ -1,0 +1,86 @@
+stages:
+  - quality
+  - build
+  - test_sanity
+  - deploy
+
+image: python:3.12-slim
+
+before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+
+#build_docker_boris:
+#  stage: .pre
+#  image: docker:29
+#  rules: # to tell when this image should be  build in the pipeline not everytime
+#    - if: $CI_PIPELINE_SOURCE == "schedule"
+#  services:
+#    - docker:29-dind
+#  script:
+#    - docker version
+#    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+#    - docker build -t $CI_REGISTRY_IMAGE/tagnameboris -f ci/Dockerfile .
+#    - docker image ls
+#    - docker push $CI_REGISTRY_IMAGE/tagnameboris
+
+
+lint: # LINT
+  stage: quality
+  script:
+    - echo "Running flake8..."
+    - flake8 .
+    - echo "Running pylint..."
+    - pylint . --fail-under=6
+
+security:
+  stage: quality
+  script:
+      - echo "Running bandit..."
+      - bandit -r . -lll
+
+build_docker_boris:
+  stage: build
+  image: docker:29
+  services:
+    - docker:29-dind
+  before_script: [] # remove the python lauch in docker file at the begining
+  script:
+    - docker version
+    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/tagnameboris -f ci/Dockerfile .
+    - docker image ls
+    - docker push $CI_REGISTRY_IMAGE/tagnameboris
+
+
+test_sanity:
+  stage: test_sanity
+  image: $CI_REGISTRY_IMAGE/tagnameboris
+  script:
+    - pytest tests/test_sanity --html=report.html --self-contained-html
+    - ls -la
+  artifacts:
+    paths:
+    - report.html
+pages:
+  stage: deploy
+  dependencies:
+    - test_sanity
+  script:
+    - echo "Files in root:"
+    - ls -la
+
+    - mkdir -p public
+    - echo "Files in public BEFORE copy:"
+    - ls -la public || true
+
+    - cp report.html public/index.html
+    - echo "Files in public AFTER copy:"
+    - ls -la public
+
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+  # allow_failure: false

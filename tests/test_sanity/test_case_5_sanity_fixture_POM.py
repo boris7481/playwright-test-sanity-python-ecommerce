@@ -7,7 +7,7 @@ from pages.login_page import LoginPage
 
 
 @pytest.mark.smoke
-def test_Register_User_with_existing_emai(page: Page, credentials_name_email):
+def test_register_User_with_existing_emai(page: Page, credentials_name_email):
     user_name = credentials_name_email["name"]
     email = credentials_name_email["email"]
     homepage = HomePage(page)
