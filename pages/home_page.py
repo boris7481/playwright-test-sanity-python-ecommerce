@@ -1,6 +1,7 @@
 from playwright.sync_api import expect
 import re
 
+SIGNUP_LOGIN = "Signup / Login"
 
 class HomePage:
     def __init__(self, page):
@@ -18,15 +19,15 @@ class HomePage:
         # expect(self.page.get_by_text("Video Tutorials")).to_be_visible()
 
     def selectordernavigationlink(self):
-        self.page.get_by_role("link", name="Signup / Login").click()
+        self.page.get_by_role("link", name=SIGNUP_LOGIN).click()
         expect(self.page.get_by_text("Login to your account")).to_be_visible()
 
     def selectordernavigationlink_signup(self):
-        self.page.get_by_role("link", name="Signup / Login").click()
+        self.page.get_by_role("link", name=SIGNUP_LOGIN).click()
         expect(self.page.get_by_text("New User Signup!")).to_be_visible()
 
     def selectordernavigationlink_signup_login(self):
-        self.page.get_by_role("link", name="Signup / Login").click()
+        self.page.get_by_role("link", name=SIGNUP_LOGIN).click()
 
     def view_women_items(self):
         self.page.get_by_role("link", name="Women").click()
@@ -50,9 +51,9 @@ class HomePage:
 
     def register_and_login(self):
         self.page.get_by_role("link", name="Register / Login").click()
-        self.page.get_by_role("link", name="Signup / Login").click()
+        self.page.get_by_role("link", name=SIGNUP_LOGIN).click()
 
-    def test_Add_to_cart_from_Recommended_items_method(self):
+    def test_add_to_cart_from_recommended_items_method(self):
         expect(self.page.get_by_text("recommended items")).to_be_visible()
         add_btn = self.page.locator(
             '[data-product-id="4"]:visible'

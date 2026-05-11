@@ -7,13 +7,13 @@ from pages.login_page import LoginPage
 
 
 @pytest.mark.smoke
-def test_register_User_with_existing_emai(page: Page, credentials_name_email):
+def test_register_user_with_existing_emai(page: Page, credentials_name_email):
     user_name = credentials_name_email["name"]
     email = credentials_name_email["email"]
     homepage = HomePage(page)
     homepage.navigate_without_login()
     homepage.selectordernavigationlink_signup()
 
-    siguPage = LoginPage(page)  # object for loginPage class
-    siguPage.signup(user_name, email)
+    sigu_page = LoginPage(page)  # object for loginPage class
+    sigu_page.signup(user_name, email)
     expect(page.get_by_text("Email Address already exist")).to_be_visible()
