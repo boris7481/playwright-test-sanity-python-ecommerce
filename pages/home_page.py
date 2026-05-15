@@ -4,11 +4,12 @@ import re
 SIGNUP_LOGIN = "Signup / Login"
 
 class HomePage:
-    def __init__(self, page):
+    def __init__(self, page, base_url):
         self.page = page
+        self.base_url = base_url
 
     def navigate_without_login(self):
-        self.page.goto("https://www.automationexercise.com/")
+        self.page.goto(self.base_url)
         try:
             self.page.get_by_role(
                 "button",

@@ -1,23 +1,23 @@
 import pytest
 from playwright.sync_api import Page, expect
+from utils.ConfigReader import ReadConfig
 
-
-@pytest.fixture
-def go_to_page_einwilligen(page: Page):
-    page.goto("https://www.automationexercise.com/")
-    expect(page.get_by_text("Video Tutorials")).to_be_visible()
-    page.get_by_role("button", name="Einwilligen").click()
-    return page
-
-
-@pytest.fixture
-def go_to_page_login(page: Page):
-    page.goto("https://www.automationexercise.com/")
-    expect(page.get_by_text("Video Tutorials")).to_be_visible()
-    page.get_by_role("button", name="Einwilligen").click()
-    page.get_by_role("link", name="Signup / Login").click()
-    expect(page.get_by_text("Login to your account")).to_be_visible()
-    return page
+#@pytest.fixture
+#def go_to_page_einwilligen(page: Page):
+#    page.goto("https://www.automationexercise.com/")
+#    expect(page.get_by_text("Video Tutorials")).to_be_visible()
+#    page.get_by_role("button", name="Einwilligen").click()
+#    return page
+#
+#
+#@pytest.fixture
+#def go_to_page_login(page: Page):
+#    page.goto("https://www.automationexercise.com/")
+#    expect(page.get_by_text("Video Tutorials")).to_be_visible()
+#    page.get_by_role("button", name="Einwilligen").click()
+#    page.get_by_role("link", name="Signup / Login").click()
+#    expect(page.get_by_text("Login to your account")).to_be_visible()
+#    return page
 
 
 # request in bracket help us to access your global environment variable
@@ -25,30 +25,47 @@ def go_to_page_login(page: Page):
 # Globla variable (for example to control in which browser your test should run)
 # the param here refert to user_credentials_valid in the bracket of the function
 # scope = session : the fixture will be execute once before full execution of the test beginn
-@pytest.fixture(scope="session")
-def user_credentials_valid(request):
-    return request.param
+#@pytest.fixture(scope="session")
+#def user_credentials_valid(request):
+#    return request.param
 
+
+#@pytest.fixture
+#def fake_credentials():
+#    return {
+#        "email_fake": "flase@gmail.com",
+#        "password_fake": "Freedom95_fake",
+#    }
+
+
+#@pytest.fixture
+#def credentials_name_email():
+#    return {
+#        "name": "09w0823@Freedom",
+#        "email": "freedomvision@gmail.com",
+#    }
+
+
+#@pytest.fixture
+#def credentials_valid():
+#    return {
+#        "email": "freedomvision@gmail.com",
+#        "password": "Freedom95",
+#    }
+
+
+@pytest.fixture(scope="session")
+def base_url():
+    return ReadConfig.get_property("BASE_URL")
 
 @pytest.fixture
 def fake_credentials():
-    return {
-        "email_fake": "flase@gmail.com",
-        "password_fake": "Freedom95_fake",
-    }
-
+    return { "email_fake": ReadConfig.get_property("email_fake"), "password_fake": ReadConfig.get_property("password_fake") }
 
 @pytest.fixture
 def credentials_name_email():
-    return {
-        "name": "09w0823@Freedom",
-        "email": "freedomvision@gmail.com",
-    }
-
+    return {"name":ReadConfig.get_property("name"), "email":ReadConfig.get_property("email")}
 
 @pytest.fixture
 def credentials_valid():
-    return {
-        "email": "freedomvision@gmail.com",
-        "password": "Freedom95",
-    }
+    return {"email": ReadConfig.get_property("email"), "password": ReadConfig.get_property("password")}
