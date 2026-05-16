@@ -4,8 +4,8 @@ from pages.home_page import HomePage
 # Test Case 11: Verify Subscription in Cart page
 
 
-def test__verify_subscription_in_cart_page(page: Page,base_url):
-    homepage = HomePage(page,base_url)
+def test__verify_subscription_in_cart_page(page: Page, base_url):
+    homepage = HomePage(page, base_url)
     homepage.navigate_without_login()
     homepage.navigate_and_click_of_cart_link()
     homepage.verify_soucription_in_home_page_method()

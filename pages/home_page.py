@@ -3,6 +3,7 @@ import re
 
 SIGNUP_LOGIN = "Signup / Login"
 
+
 class HomePage:
     def __init__(self, page, base_url):
         self.page = page
